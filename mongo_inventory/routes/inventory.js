@@ -7,8 +7,9 @@ var {
 	updateProduct,
 	deleteProduct,
 } = require("../controller/inventory");
+const productsCache = require("../middleWare/productsCache");
 
-router.get("/", getAllProducts);
+router.get("/", productsCache, getAllProducts);
 router.post("/", createProduct);
 router.patch("/:id", updateProduct);
 router.delete("/:id", deleteProduct);

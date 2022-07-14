@@ -1,10 +1,13 @@
 var { products } = require("../schema/inventory");
+var myCache = require("../helper/nodeCache");
+var redisClient = require("../helper/redisCache");
 
 const getAllProducts = async (req, res) => {
 	try {
 		const result = await products.find();
-
 		res.status(200).json(result);
+		myCache.set("allProductsMongo", result);
+		redisClient.setEx("allProductsMongo", 30, JSON.stringify(result));
 	} catch (error) {
 		res.status(400).send(error);
 	}

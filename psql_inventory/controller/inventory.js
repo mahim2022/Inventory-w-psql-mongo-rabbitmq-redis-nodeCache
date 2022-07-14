@@ -1,14 +1,18 @@
 const pool = require("../db");
 const publishToQueue = require("../helper/raabbitMq");
+var myCache = require("../helper/nodeCache");
+var redisClient = require("../helper/redisCache");
 
-const getAllProducts = async (req, res) => {
+async function getAllProducts(req, res) {
 	try {
 		const { rows } = await pool.query("select * from products");
 		res.status(200).json(rows);
+		myCache.set("allProducts", rows);
+		redisClient.setEx("allProducts", 30, JSON.stringify(rows));
 	} catch (error) {
 		res.status(401).json(error);
 	}
-};
+}
 const createProduct = async (req, res) => {
 	const { productname, sku, productprice } = req.body;
 	try {

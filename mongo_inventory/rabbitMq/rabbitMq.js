@@ -12,7 +12,7 @@ const createProduct = async (data) => {
 				sku,
 				psql_id,
 			});
-			console.log(`product created ${result}`);
+			console.log(`product created`);
 		} else {
 			console.log(`Product already exists`);
 		}
@@ -31,7 +31,7 @@ const updateProduct = async (data) => {
 				{ psql_id: products_id },
 				{ productname, productprice, sku }
 			);
-			console.log(result);
+			console.log(`Product Updated`);
 		} else {
 			console.log(`Error no docs with id`);
 		}
@@ -44,6 +44,7 @@ const deleteProduct = async (id) => {
 		const find = await products.findOne({ psql_id: id });
 		if (find) {
 			await products.findByIdAndDelete(find._id);
+			console.log(`product deleted`);
 		} else {
 			console.log(`Error no doc with such id`);
 		}

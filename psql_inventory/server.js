@@ -1,13 +1,14 @@
 const app = require("./app");
+const amqplib = require("amqplib");
 
+////Server///
 var PORT = 5001;
-
 app.listen(PORT, () => {
 	console.log(`server running on port ${PORT}`);
 });
-///////RabbitMq/////////////
-const amqplib = require("amqplib");
+/////////////
 
+///////RabbitMq/////////////
 (async () => {
 	const queue = "tasks";
 	const conn = await amqplib.connect(
@@ -37,4 +38,4 @@ const amqplib = require("amqplib");
 	// 	ch2.sendToQueue(queue, Buffer.from("something to do"));
 	// }, 5000);
 })();
-// //////
+////////
