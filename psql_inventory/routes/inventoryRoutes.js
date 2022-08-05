@@ -11,6 +11,6 @@ var productsCache = require("../middleware/productsCache");
 router.get("/", productsCache, getAllProducts);
 router.post("/", createProduct);
 router.patch("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+router.post("/delete", deleteProduct);
 
 module.exports = router;

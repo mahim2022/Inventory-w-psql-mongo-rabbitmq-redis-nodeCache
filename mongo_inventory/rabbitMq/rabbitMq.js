@@ -12,7 +12,10 @@ const createProduct = async (data) => {
 				sku,
 				psql_id,
 			});
-			console.log(`product created`);
+			// console.log(`product created`);
+			if (result) {
+				return result;
+			}
 		} else {
 			console.log(`Product already exists`);
 		}
@@ -39,20 +42,29 @@ const updateProduct = async (data) => {
 		res.status(400).send(error);
 	}
 };
-const deleteProduct = async (id) => {
+const deleteProduct = async (data) => {
 	try {
-		const find = await products.findOne({ psql_id: id });
-		if (find) {
-			await products.findByIdAndDelete(find._id);
-			console.log(`product deleted`);
-		} else {
-			console.log(`Error no doc with such id`);
-		}
-		// res.status(200).json(result);
+		await products.deleteMany({ psql_id: data });
+		// res.status(200).send("Deletion Succesful");
+		console.log("Mongo Deletion Success");
 	} catch (error) {
-		// res.status(400).send(`No file with the id ${error}`);
-		res.status(400).send(`No file with _id : "${error.value}"`);
+		// res.status(400).send(error.message);
+		console.log(error.message);
 	}
+
+	// try {
+	// 	const find = await products.findOne({ psql_id: id });
+	// 	if (find) {
+	// 		await products.findByIdAndDelete(find._id);
+	// 		console.log(`product deleted`);
+	// 	} else {
+	// 		console.log(`Error no doc with such id`);
+	// 	}
+	// 	// res.status(200).json(result);
+	// } catch (error) {
+	// 	// res.status(400).send(`No file with the id ${error}`);
+	// 	res.status(400).send(`No file with _id : "${error.value}"`);
+	// }
 };
 
 module.exports = {

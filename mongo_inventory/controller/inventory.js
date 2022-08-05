@@ -7,7 +7,7 @@ const getAllProducts = async (req, res) => {
 		const result = await products.find();
 		res.status(200).json(result);
 		myCache.set("allProductsMongo", result);
-		redisClient.setEx("allProductsMongo", 30, JSON.stringify(result));
+		redisClient.setEx("allProductsMongo", 600, JSON.stringify(result));
 	} catch (error) {
 		res.status(400).send(error);
 	}

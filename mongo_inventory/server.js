@@ -40,8 +40,10 @@ const {
 		if (msg !== null) {
 			const data = JSON.parse(msg.content.toString());
 			ch1.ack(msg);
-
-			createProduct(data);
+			const res = createProduct(data);
+			if (res) {
+				console.log("Product Created");
+			}
 		} else {
 			console.log("Consumer cancelled by server");
 		}
@@ -50,11 +52,9 @@ const {
 	ch1.consume("update", (msg) => {
 		if (msg !== null) {
 			const data = JSON.parse(msg.content.toString());
-			// createProduct(data);
 			ch1.ack(msg);
-
 			updateProduct(data);
-			// console.log(data);
+			console.log(`Message processed and updated in mongo`);
 		} else {
 			console.log("Consumer cancelled by server");
 		}
@@ -65,11 +65,6 @@ const {
 			const data = JSON.parse(msg.content.toString());
 			ch1.ack(msg);
 			deleteProduct(data);
-
-			// createProduct(data);
-			// console.log(data);
-			// updateProduct(data);
-			// console.log(data);
 		} else {
 			console.log("Consumer cancelled by server");
 		}
